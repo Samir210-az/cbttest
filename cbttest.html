@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <!-- 🔧 AŞAĞIDAKI 3 SƏTİR YALNIZ KEŞ PROBLEMİNİ HƏLL EDİR - HƏÇ BİR FUNKSİYANİ DƏYİŞMİR -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <!-- ================================================================== -->
     <title>AN Psixoloji Dəstək | CBT Klinik Qiymətləndirmə</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -24,10 +22,7 @@
         .banner{background:#1b4d3a;color:#fff;padding:14px 18px;border-radius:35px;margin-bottom:20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
         .banner i{font-size:1.6rem}
         .header-card{background:#fff;border-radius:35px;padding:15px 20px;margin-bottom:20px;display:flex;flex-direction:column;gap:15px}
-        @media (min-width: 768px) {
-            .header-card{flex-direction:row;justify-content:space-between;align-items:center}
-            .info-form{flex-wrap:nowrap}
-        }
+        @media (min-width: 768px){.header-card{flex-direction:row;justify-content:space-between;align-items:center}.info-form{flex-wrap:nowrap}}
         .logo h2{color:#1f5e3a;font-size:1.3rem}
         .logo p{font-size:0.8rem}
         .info-form{display:flex;flex-wrap:wrap;gap:10px;background:#f5f7fa;padding:10px 15px;border-radius:50px;width:100%}
@@ -59,11 +54,7 @@
         .close-modal{position:absolute;right:18px;top:12px;font-size:1.6rem;cursor:pointer}
         .test-list-item{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ddd;padding:10px;flex-wrap:wrap;gap:8px}
         footer{text-align:center;margin-top:30px;color:#3c6e5a;font-size:0.7rem}
-        @media (max-width: 550px) {
-            .options label{padding:4px 8px;font-size:0.7rem}
-            .tab-btn{padding:6px 14px;font-size:0.8rem}
-            .card-header{font-size:1.2rem}
-        }
+        @media (max-width: 550px){.options label{padding:4px 8px;font-size:0.7rem}.tab-btn{padding:6px 14px;font-size:0.8rem}.card-header{font-size:1.2rem}}
     </style>
 </head>
 <body>
@@ -71,7 +62,6 @@
 <div id="mainApp" style="display:none">
 <div class="container">
     <div class="banner"><i class="fas fa-chart-line"></i> <strong>AN Klinik CBT Qiymətləndirmə Aləti</strong> – Lisenziyalı versiya</div>
-    
     <div class="header-card">
         <div class="logo"><h2><i class="fas fa-brain"></i> AN Psixoloji Dəstək Mərkəzi</h2><p>CBT əsaslı klinik qiymətləndirmə</p></div>
         <div class="info-form">
@@ -84,19 +74,15 @@
             <div><button id="historyBtn" class="btn"><i class="fas fa-history"></i> Keçmiş</button></div>
         </div>
     </div>
-    
     <div style="text-align:right; margin-bottom:15px"><button id="openGuide" class="btn"><i class="fas fa-book-open"></i> Klinik təlimat</button></div>
-    
     <div class="tab-buttons">
         <button class="tab-btn active" data-tab="parent">👪 Valideyn (20)</button>
         <button class="tab-btn" data-tab="child">🧒 Uşaq (20)</button>
         <button class="tab-btn" data-tab="teacher">🍎 Müəllim (10)</button>
     </div>
-    
     <div id="parentTab" class="tab-content active"><div class="question-card"><div class="card-header"><i class="fas fa-users"></i> Valideyn sorğusu</div><div id="parentForm"></div></div></div>
     <div id="childTab" class="tab-content"><div class="question-card"><div class="card-header"><i class="fas fa-child"></i> Uşaq sorğusu</div><div id="childForm"></div></div></div>
     <div id="teacherTab" class="tab-content"><div class="question-card"><div class="card-header"><i class="fas fa-chalkboard-teacher"></i> Müəllim anketi</div><div id="teacherForm"></div></div></div>
-    
     <button id="calculateBtn" class="btn-calc"><i class="fas fa-chart-line"></i> Klinik analiz & şkala hesabla</button>
     <div id="resultsArea" class="results-box"></div>
     <footer>© AN Psixoloji Dəstək Mərkəzi | Lisenziyalı versiya</footer>
@@ -126,43 +112,58 @@
 <div id="historyModal" class="modal"><div class="modal-content"><span class="close-modal" id="closeHistoryModal">&times;</span><h2><i class="fas fa-history"></i> Keçirilmiş testlər</h2><div id="testListContainer" style="margin:20px 0"></div><button id="closeHistoryModalBtn" class="btn">Bağla</button></div></div>
 
 <script>
-const VALID_LICENSE = "LIC-T4C0L-PEWNF-KB5U";
+(function(){
+    const VALID_LICENSE = "LIC-T4C0L-PEWNF-KB5U";
+    let isAppStarted = false;
 
-(function() {
+    function startApplication() {
+        if(isAppStarted) return;
+        isAppStarted = true;
+        document.getElementById('licenseOverlay').style.display = 'none';
+        document.getElementById('mainApp').style.display = 'block';
+        if(typeof window.initApp === 'function') window.initApp();
+        else console.error('initApp tapılmadı');
+    }
+
+    function checkStoredLicense() {
+        try {
+            const lic = localStorage.getItem('an_cbt_license');
+            if(lic === VALID_LICENSE) {
+                startApplication();
+                return true;
+            }
+        } catch(e) {}
+        return false;
+    }
+
     function showLicenseScreen() {
         document.getElementById('licenseOverlay').style.display = 'flex';
         document.getElementById('mainApp').style.display = 'none';
     }
-    function hideLicenseAndStart() {
-        document.getElementById('licenseOverlay').style.display = 'none';
-        document.getElementById('mainApp').style.display = 'block';
-        if(typeof initApp === 'function') initApp();
-    }
-    try {
-        const stored = localStorage.getItem('an_cbt_license');
-        if(stored === VALID_LICENSE) {
-            hideLicenseAndStart();
-        } else {
-            showLicenseScreen();
-        }
-    } catch(e) {
-        showLicenseScreen();
-    }
+
     const verifyBtn = document.getElementById('verifyLicenseBtn');
     if(verifyBtn) {
         verifyBtn.onclick = function() {
-            const inputCode = document.getElementById('licenseKey').value.trim();
-            if(inputCode === VALID_LICENSE) {
+            const code = document.getElementById('licenseKey').value.trim();
+            if(code === VALID_LICENSE) {
                 try { localStorage.setItem('an_cbt_license', VALID_LICENSE); } catch(e) {}
-                hideLicenseAndStart();
+                startApplication();
             } else {
-                const errorDiv = document.getElementById('licenseError');
-                if(errorDiv) errorDiv.style.display = 'block';
+                document.getElementById('licenseError').style.display = 'block';
             }
         };
     }
+
+    if(document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            if(!checkStoredLicense()) showLicenseScreen();
+        });
+    } else {
+        if(!checkStoredLicense()) showLicenseScreen();
+    }
 })();
 
+// ========== BÜTÜN DİGƏR FUNKSİYALAR (DƏYİŞMƏZ) ==========
 let allTests = JSON.parse(localStorage.getItem('an_cbt_data')) || [];
 
 const parentQuestions = [
@@ -187,7 +188,7 @@ const teacherDomains = ["A","S","B","E","D","A","S","B","E","D"];
 
 function renderForm(containerId, questions, domains, prefix) {
     let html = '';
-    for(let i=0; i<questions.length; i++) {
+    for(let i=0;i<questions.length;i++) {
         html += '<div class="question-item" data-domain="'+domains[i]+'">';
         html += '<div class="question-text">'+questions[i]+'</div>';
         html += '<div class="options">';
@@ -224,7 +225,7 @@ window.initApp = function() {
     renderForm('childForm', childQuestions, childDomains, 'c');
     renderForm('teacherForm', teacherQuestions, teacherDomains, 't');
     updateDatalist();
-    
+
     document.getElementById('saveBtn').onclick = function() {
         let name = document.getElementById('childName').value.trim();
         let surname = document.getElementById('childSurname').value.trim();
@@ -248,7 +249,7 @@ window.initApp = function() {
         updateDatalist();
         alert('Test uğurla saxlanıldı');
     };
-    
+
     document.getElementById('historyBtn').onclick = function() {
         let container = document.getElementById('testListContainer');
         if(allTests.length===0) container.innerHTML = '<p>Heç bir test yoxdur</p>';
@@ -280,7 +281,7 @@ window.initApp = function() {
         }
         document.getElementById('historyModal').style.display = 'flex';
     };
-    
+
     document.getElementById('calculateBtn').onclick = function() {
         if(getCheckedCount('parentForm')!==20 || getCheckedCount('childForm')!==20) {
             alert('Zəhmət olmasa valideyn (20) və uşaq (20) suallarını tam cavablandırın!');
