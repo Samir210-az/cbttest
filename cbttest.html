@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AN Psixoloji Dəstək | CBT Klinik Qiymətləndirmə</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:#f0f4fa;padding:20px}
+        .container{max-width:1300px;margin:0 auto}
+        .license-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);display:flex;align-items:center;justify-content:center;z-index:9999}
+        .license-box{background:#fff;border-radius:50px;padding:40px;max-width:450px;width:90%;text-align:center}
+        .license-box i{font-size:3rem;color:#2b7a4b}
+        .license-box input{width:100%;padding:14px;margin:20px 0;border:2px solid #ddd;border-radius:50px}
+        .license-box button{background:#2b7a4b;color:#fff;border:none;padding:12px 30px;border-radius:50px;cursor:pointer;font-weight:bold}
+        .error-msg{color:red;margin-top:10px;display:none}
+        .banner{background:#1b4d3a;color:#fff;padding:16px 24px;border-radius:40px;margin-bottom:25px;display:flex;align-items:center;gap:12px}
+        .header-card{background:#fff;border-radius:40px;padding:18px 25px;margin-bottom:25px;display:flex;justify-content:space-between;flex-wrap:wrap;align-items:center}
+        .logo h2{color:#1f5e3a}
+        .info-form{display:flex;gap:12px;flex-wrap:wrap;background:#f5f7fa;padding:10px 20px;border-radius:50px}
+        .info-form input{padding:6px 12px;border-radius:30px;border:1px solid #ccc}
+        .btn{background:#fff;border:1px solid #2b7a4b;padding:6px 16px;border-radius:40px;cursor:pointer;font-weight:600}
+        .btn:hover{background:#2b7a4b;color:#fff}
+        .tab-buttons{display:flex;gap:12px;margin-bottom:25px;flex-wrap:wrap}
+        .tab-btn{background:#eef2ff;border:none;padding:10px 24px;border-radius:40px;cursor:pointer;font-weight:600}
+        .tab-btn.active{background:#2b7a4b;color:#fff}
+        .tab-content{display:none}
+        .tab-content.active{display:block}
+        .question-card{background:#fff;border-radius:40px;padding:28px;margin-bottom:25px}
+        .card-header{font-size:1.4rem;font-weight:800;border-bottom:2px solid #cfe3dc;padding-bottom:12px;margin-bottom:20px;display:flex;align-items:center;gap:10px;color:#1c5d42}
+        .question-item{margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #eef3f0}
+        .question-text{font-weight:600;margin-bottom:10px}
+        .options{display:flex;flex-wrap:wrap;gap:8px}
+        .options label{background:#f5f9fc;padding:5px 12px;border-radius:50px;font-size:0.8rem;cursor:pointer;border:1px solid #ddd}
+        input[type="radio"]{margin-right:5px}
+        .btn-calc{background:#1e6342;width:100%;padding:16px;font-size:1.2rem;color:#fff;font-weight:700;border-radius:60px;cursor:pointer;margin:20px 0;border:none}
+        .results-box{background:#fff;border-radius:40px;padding:30px;margin-top:25px;display:none}
+        .domain-card{background:#f9fafb;border-radius:28px;padding:18px;margin-bottom:20px;border-left:6px solid}
+        .scale-bar{background:#e2e8f0;border-radius:20px;height:12px;margin:12px 0}
+        .scale-fill{height:12px;border-radius:20px}
+        .psych-box,.parent-box{padding:12px;border-radius:24px;margin-top:12px;line-height:1.5}
+        .psych-box{background:#e8f0fe;border-left:4px solid #2b7a4b}
+        .parent-box{background:#fef2e0;border-left:4px solid #e67e22}
+        .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);align-items:center;justify-content:center;z-index:10000}
+        .modal-content{background:#fff;max-width:850px;width:90%;max-height:85vh;overflow-y:auto;border-radius:48px;padding:30px;position:relative}
+        .close-modal{position:absolute;right:20px;top:15px;font-size:1.8rem;cursor:pointer}
+        .test-list-item{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ddd;padding:12px}
+        footer{text-align:center;margin-top:40px;color:#3c6e5a;font-size:0.8rem}
+    </style>
+</head>
+<body>
+
+<div id="mainApp" style="display:none">
+<div class="container">
+    <div class="banner"><i class="fas fa-chart-line"></i> <strong>AN Klinik CBT Qiymətləndirmə Aləti</strong> – Lisenziyalı versiya</div>
+    
+    <div class="header-card">
+        <div class="logo"><h2><i class="fas fa-brain"></i> AN Psixoloji Dəstək Mərkəzi</h2></div>
+        <div class="info-form">
+            <div><input type="text" id="childName" placeholder="Ad" list="existingNames"></div>
+            <datalist id="existingNames"></datalist>
+            <div><input type="text" id="childSurname" placeholder="Soyad"></div>
+            <div><input type="number" id="childAge" placeholder="Yaş"></div>
+            <div><input type="text" id="specialist" placeholder="Psixoloq"></div>
+            <div><button id="saveBtn" class="btn"><i class="fas fa-save"></i> Saxla</button></div>
+            <div><button id="historyBtn" class="btn"><i class="fas fa-history"></i> Keçmiş</button></div>
+        </div>
+    </div>
+    
+    <div style="text-align:right; margin-bottom:15px"><button id="openGuide" class="btn"><i class="fas fa-book-open"></i> Klinik təlimat</button></div>
+    
+    <div class="tab-buttons">
+        <button class="tab-btn active" data-tab="parent">👪 Valideyn (20)</button>
+        <button class="tab-btn" data-tab="child">🧒 Uşaq (20)</button>
+        <button class="tab-btn" data-tab="teacher">🍎 Müəllim (10)</button>
+    </div>
+    
+    <div id="parentTab" class="tab-content active"><div class="question-card"><div class="card-header"><i class="fas fa-users"></i> Valideyn sorğusu</div><div id="parentForm"></div></div></div>
+    <div id="childTab" class="tab-content"><div class="question-card"><div class="card-header"><i class="fas fa-child"></i> Uşaq sorğusu</div><div id="childForm"></div></div></div>
+    <div id="teacherTab" class="tab-content"><div class="question-card"><div class="card-header"><i class="fas fa-chalkboard-teacher"></i> Müəllim anketi</div><div id="teacherForm"></div></div></div>
+    
+    <button id="calculateBtn" class="btn-calc"><i class="fas fa-chart-line"></i> Klinik analiz & şkala hesabla</button>
+    <div id="resultsArea" class="results-box"></div>
+    <footer>© AN Psixoloji Dəstək Mərkəzi | Lisenziyalı versiya</footer>
+</div>
+</div>
+
+<div id="licenseOverlay" class="license-overlay">
+    <div class="license-box">
+        <i class="fas fa-lock"></i>
+        <h2>Lisenziya tələb olunur</h2>
+        <input type="text" id="licenseKey" placeholder="Lisenziya kodu">
+        <button id="verifyLicenseBtn">Təsdiqlə</button>
+        <div id="licenseError" class="error-msg">Lisenziya kodu yanlışdır</div>
+    </div>
+</div>
+
+<div id="guideModal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span>
+    <h2>📚 Klinik təlimat – keçirilmə qaydası və normativ məlumat</h2>
+    <p><strong>📌 1. Testin məqsədi</strong><br>Bu alət xüsusi qayğıya ehtiyacı olan uşaqlarda anksiyete, emosional tənzimləmə, sosial bacarıqlar, davranış və gündəlik fəaliyyət sahələrində CBT əsaslı qiymətləndirmə aparmaq üçündür. Türkiyə normativlərinə əsaslanır (SDQ, RCADS, SCAS).</p>
+    <p><strong>📋 2. Tətbiq qaydası</strong><br>Yalnız lisenziyalı klinik psixoloq tətbiq edə bilər.<br>Valideyn və uşaq ayrı, sakit mühitdə cavablandırır.<br>Müəllim anketi arzu olunandır, lakin məcburi deyil.<br>Hər sual 0-4 Likert şkalası (“Heç vaxt” – “Həmişə”). “Bilmirəm” seçimi hesablamaya daxil edilmir.<br>Nəticələr avtomatik hesablanır, faiz şkalası ilə göstərilir.</p>
+    <p><strong>📊 3. Normativ şkala (Türkiyə)</strong><br>✅ 0-40% – Normativ diapazon, müdaxilə tələb olunmur.<br>⚠️ 41-70% – Subklinik risk, profilaktik CBT tövsiyə olunur.<br>🔴 71-100% – Yüksək klinik əhəmiyyət, strukturlaşdırılmış CBT proqramı ehtiyacı.</p>
+    <p><strong>🧠 4. Domenlər</strong><br>A (Anksiyete): Qorxu, narahatlıq, sosial fobiya.<br>E (Emosional tənzimləmə): Qəzəb, duyğu partlayışları.<br>S (Sosial bacarıqlar): Dostluq, empatiya, növbə gözləmə.<br>B (Davranış): Impulsivlik, aqressiya, təkrarlanan hərəkətlər.<br>D (Gündəlik fəaliyyət): Öz qulluq, ev tapşırığı, rutinlər.</p>
+    <p><strong>⚠️ 5. Etik qaydalar</strong><br>Nəticələr qəti diaqnoz deyil, klinik mühakimə ilə birlikdə qiymətləndirilməlidir.<br>Məlumatlar lokal yaddaşda şifrələnmiş saxlanılır.<br>Yalnız lisenziyalı psixoloqlar şərh edə bilər.</p>
+    <button id="closeGuideBtn" class="btn">Bağla</button>
+</div></div>
+
+<div id="historyModal" class="modal"><div class="modal-content"><span class="close-modal" id="closeHistoryModal">&times;</span><h2><i class="fas fa-history"></i> Keçirilmiş testlər</h2><div id="testListContainer" style="margin:20px 0"></div><button id="closeHistoryModalBtn" class="btn">Bağla</button></div></div>
+
+<script>
+const VALID_LICENSE = "LIC-T4C0L-PEWNF-KB5U";
+
+if(localStorage.getItem('an_cbt_license') === VALID_LICENSE) {
+    document.getElementById('licenseOverlay').style.display = 'none';
+    document.getElementById('mainApp').style.display = 'block';
+    baslat();
+} else {
+    document.getElementById('licenseOverlay').style.display = 'flex';
+}
+
+document.getElementById('verifyLicenseBtn').onclick = function() {
+    if(document.getElementById('licenseKey').value.trim() === VALID_LICENSE) {
+        localStorage.setItem('an_cbt_license', VALID_LICENSE);
+        document.getElementById('licenseOverlay').style.display = 'none';
+        document.getElementById('mainApp').style.display = 'block';
+        baslat();
+    } else {
+        document.getElementById('licenseError').style.display = 'block';
+    }
+};
+
+let tumTestler = JSON.parse(localStorage.getItem('an_cbt_turkiye')) || [];
+
+// ========== SUALLAR ==========
+const parentMetn = [
+"1. Yeni mühitdə əsəbiləşir?","2. Məktəb qorxusu?","3. Yuxu problemi?","4. Təkrar suallar?","5. Ayrılma narahatlığı?","6. Fiziki şikayətlər?",
+"7. Qəzəb nəzarəti?","8. Məyusluq reaksiyası?","9. Duyğuları ifadə?","10. Əhval dəyişkənliyi?","11. Dostluq çətinliyi?","12. Empatiya problemi?",
+"13. Növbə gözləmə?","14. Söhbətə başlama?","15. Təkrarlanan hərəkətlər?","16. İmpulsivlik?","17. Aqressiya?","18. Özbaşınalıq?","19. Rutin problem?","20. Planlaşdırma?"
+];
+const parentDomain = ["A","A","A","A","A","A","E","E","E","E","S","S","S","S","B","B","B","D","D","D"];
+
+const uşaqMetn = [
+"1. Yeni insanlar yanında əsəb?","2. İmtahan qorxusu?","3. Tək yatmaq qorxusu?","4. Pis şey olacaq?","5. Ailədən uzaqda narahatlıq?","6. Bədən ağrıları?",
+"7. Qəzəb partlayışı?","8. Plan pozulanda qəzəb?","9. Hissləri izah çətin?","10. Əhval dəyişir?","11. Dostluq edə bilirəm?","12. Empatiya çətin?",
+"13. Növbə gözləmə çətin?","14. Söhbətə başlama çətin?","15. Təkrar hərəkətlər?","16. Təhlükəli işlər?","17. Vururam?","18. Ev tapşırığı çətin?","19. Yemək/yuxu problem?","20. Planlaşdırma çətin?"
+];
+const uşaqDomain = ["A","A","A","A","A","A","E","E","E","E","S","S","S","S","B","B","B","D","D","D"];
+
+const muellimMetn = [
+"1. İmtahan narahatlığı?","2. Əməkdaşlıq çətinliyi?","3. Yerində oturmaq çətin?","4. Emosional partlayışlar?","5. Ev tapşırığı çətinliyi?",
+"6. Sosial narahatlıq?","7. Münaqişə həlli?","8. Təkrarlanan hərəkətlər?","9. Qaydalara əməl etməmək?","10. Planlı işləmə çətinliyi?"
+];
+const muellimDomain = ["A","S","B","E","D","A","S","B","E","D"];
+
+function formaYaz(formId, metnler, domainler, onEk) {
+    let html = '';
+    for(let i=0; i<metnler.length; i++) {
+        html += '<div class="question-item" data-domain="'+domainler[i]+'">';
+        html += '<div class="question-text">'+metnler[i]+'</div>';
+        html += '<div class="options">';
+        html += '<label><input type="radio" name="'+onEk+(i+1)+'" value="0"> Heç vaxt</label>';
+        html += '<label><input type="radio" name="'+onEk+(i+1)+'" value="1"> Nadir</label>';
+        html += '<label><input type="radio" name="'+onEk+(i+1)+'" value="2"> Bəzən</label>';
+        html += '<label><input type="radio" name="'+onEk+(i+1)+'" value="3"> Tez-tez</label>';
+        html += '<label><input type="radio" name="'+onEk+(i+1)+'" value="4"> Həmişə</label>';
+        html += '<label><input type="radio" name="'+onEk+(i+1)+'" value="-1"> ❓ Bilmirəm</label>';
+        html += '</div></div>';
+    }
+    document.getElementById(formId).innerHTML = html;
+}
+
+function adListesiniYenile() {
+    let adlar = [...new Set(tumTestler.map(t=>t.ad).filter(a=>a))];
+    let dl = document.getElementById('existingNames');
+    dl.innerHTML = '';
+    adlar.forEach(a=>{let o=document.createElement('option');o.value=a;dl.appendChild(o);});
+}
+
+function secimSayisi(formId) {
+    return document.querySelectorAll('#'+formId+' input[type="radio"]:checked').length;
+}
+
+function cavablariAl(formId) {
+    let obj = {};
+    document.querySelectorAll('#'+formId+' input[type="radio"]:checked').forEach(r=>obj[r.name]=r.value);
+    return obj;
+}
+
+function baslat() {
+    formaYaz('parentForm', parentMetn, parentDomain, 'p');
+    formaYaz('childForm', uşaqMetn, uşaqDomain, 'c');
+    formaYaz('teacherForm', muellimMetn, muellimDomain, 't');
+    adListesiniYenile();
+    
+    document.getElementById('saveBtn').onclick = function() {
+        let ad = document.getElementById('childName').value.trim();
+        let soyad = document.getElementById('childSurname').value.trim();
+        if(!ad || !soyad) { alert('Ad və soyad daxil edin'); return; }
+        if(secimSayisi('parentForm')!==20 || secimSayisi('childForm')!==20) {
+            alert('Valideyn (20) və uşaq (20) suallarını tam cavablandırın!');
+            return;
+        }
+        tumTestler.push({
+            id: Date.now(),
+            ad: ad,
+            soyad: soyad,
+            yas: document.getElementById('childAge').value,
+            psixoloq: document.getElementById('specialist').value,
+            tarix: new Date().toLocaleString(),
+            valideyn: cavablariAl('parentForm'),
+            usaq: cavablariAl('childForm'),
+            muellim: cavablariAl('teacherForm')
+        });
+        localStorage.setItem('an_cbt_turkiye', JSON.stringify(tumTestler));
+        adListesiniYenile();
+        alert('Test uğurla saxlanıldı');
+    };
+    
+    document.getElementById('historyBtn').onclick = function() {
+        let container = document.getElementById('testListContainer');
+        if(tumTestler.length===0) container.innerHTML = '<p>Heç bir test yoxdur</p>';
+        else {
+            let h = '';
+            for(let i=0;i<tumTestler.length;i++) {
+                let t = tumTestler[i];
+                h += '<div class="test-list-item"><div><strong>'+t.ad+' '+t.soyad+'</strong> ('+t.yas+')<br><small>'+t.tarix+'</small></div><button class="btn yukle" data-idx="'+i+'">Yüklə</button></div>';
+            }
+            container.innerHTML = h;
+            document.querySelectorAll('.yukle').forEach(btn=>{
+                btn.onclick = function(e) {
+                    let idx = parseInt(e.target.dataset.idx);
+                    let t = tumTestler[idx];
+                    document.getElementById('childName').value = t.ad;
+                    document.getElementById('childSurname').value = t.soyad;
+                    document.getElementById('childAge').value = t.yas;
+                    document.getElementById('specialist').value = t.psixoloq||'';
+                    document.querySelectorAll('#parentForm input[type="radio"]').forEach(r=>r.checked=false);
+                    document.querySelectorAll('#childForm input[type="radio"]').forEach(r=>r.checked=false);
+                    document.querySelectorAll('#teacherForm input[type="radio"]').forEach(r=>r.checked=false);
+                    for(let [k,v] of Object.entries(t.valideyn)) { let r = document.querySelector('#parentForm input[name="'+k+'"][value="'+v+'"]'); if(r) r.checked=true; }
+                    for(let [k,v] of Object.entries(t.usaq)) { let r = document.querySelector('#childForm input[name="'+k+'"][value="'+v+'"]'); if(r) r.checked=true; }
+                    for(let [k,v] of Object.entries(t.muellim)) { let r = document.querySelector('#teacherForm input[name="'+k+'"][value="'+v+'"]'); if(r) r.checked=true; }
+                    document.getElementById('historyModal').style.display = 'none';
+                    document.getElementById('calculateBtn').click();
+                };
+            });
+        }
+        document.getElementById('historyModal').style.display = 'flex';
+    };
+    
+    document.getElementById('calculateBtn').onclick = function() {
+        if(secimSayisi('parentForm')!==20 || secimSayisi('childForm')!==20) {
+            alert('Zəhmət olmasa valideyn (20) və uşaq (20) suallarını tam cavablandırın!');
+            return;
+        }
+        let skor = {A:0, E:0, S:0, B:0, D:0};
+        let say = {A:0, E:0, S:0, B:0, D:0};
+        
+        function isle(formId) {
+            let items = document.querySelectorAll('#'+formId+' .question-item');
+            items.forEach(item=>{
+                let deyer = null;
+                item.querySelectorAll('input[type="radio"]').forEach(r=>{if(r.checked) deyer=parseInt(r.value);});
+                if(deyer!==null && deyer!==-1) {
+                    let d = item.dataset.domain;
+                    if(skor[d]!==undefined) { skor[d] += deyer; say[d]++; }
+                }
+            });
+        }
+        isle('parentForm'); isle('childForm'); isle('teacherForm');
+        
+        let html = '<div style="background:#eef3e8;padding:15px;border-radius:28px;margin-bottom:25px;text-align:center;"><i class="fas fa-chart-line"></i> <strong>Klinik analiz nəticələri (Türkiyə normativləri)</strong></div>';
+        let adlar = {A:"Anksiyete (narahatlıq)", E:"Emosional tənzimləmə", S:"Sosial bacarıqlar", B:"Davranış & impulsivlik", D:"Gündəlik fəaliyyət"};
+        
+        for(let d of ['A','E','S','B','D']) {
+            let faiz = say[d] ? (skor[d]/say[d]/4)*100 : 0;
+            let renk = faiz>70 ? "#c2410c" : (faiz>40 ? "#eab308" : "#2b7a4b");
+            let seviye = faiz>70 ? "🔴 Yüksək klinik ehtiyac" : (faiz>40 ? "⚠️ Subklinik / orta risk" : "✅ Normativ diapazon");
+            
+            let psixoloqMesaj = '';
+            let valideynMesaj = '';
+            if(faiz>70) {
+                psixoloqMesaj = "🏥 Mütləq strukturlaşdırılmış CBT proqramı (FYF, Cool Kids, SAS). Həftədə 1-2 sessiya fərdi terapiya. Valideyn təlimi mütləqdir. Hər dərsdən sonra ev tapşırıqları izlənilməli, narahatlıq termometri gündəlik tətbiq edilməlidir.";
+                valideynMesaj = "👨‍👩‍👧 Valideyn təlimi: Uşağınızın emosiyalarını tanımağa kömək edin. Gündəlik 'narahatlıq termometri' tətbiq edin. Evdə müsbət gücləndirmə sistemi qurun. Peşəkar dəstək olmadan təxirə salmayın. Stop-Think-Plan texnikasını birlikdə öyrənin.";
+            } else if(faiz>40) {
+                psixoloqMesaj = "📋 Profilaktik CBT strategiyaları: 4-6 seans qrup bacarıqları təlimi. Psixoedukasiya, sosial bacarıq dəstəyi, valideyn məsləhəti. Əsas diqqət: duyğu tənzimləmə və impuls nəzarəti bacarıqlarına yönəldilsin.";
+                valideynMesaj = "📖 Valideyn təlimi tövsiyə olunur: Uşağınızla birlikdə 'Stop-Think-Plan' texnikasını öyrənin. Onun güclü tərəflərini dəstəkləyin. Mütəmadi olaraq məktəb psixoloqu ilə əlaqə saxlayın. Evdə kiçik mükafat sistemləri tətbiq edin.";
+            } else {
+                psixoloqMesaj = "✅ Monitorinq davam etdirilsin. İllik skrininq kifayətdir. Heç bir müdaxilə tələb olunmur, lakin valideynlərə profilaktik tövsiyələr verilə bilər. Güclü tərəflərin qorunması vacibdir.";
+                valideynMesaj = "🌟 Uşağınız normativ diapazondadır. Onu olduğu kimi qəbul edin, emosional inkişafı üçün açıq ünsiyyət qurmağa davam edin. Lazım gələrsə, gələcək dəyişiklikləri izləyin. Mövcud vərdişləri gücləndirin.";
+            }
+            
+            html += '<div class="domain-card" style="border-left-color:'+renk+'">';
+            html += '<h3>'+adlar[d]+' – '+faiz.toFixed(0)+'% <span style="background:#eef2fa;padding:4px 12px;border-radius:40px;font-size:0.75rem;">'+seviye+'</span></h3>';
+            html += '<div class="scale-bar"><div class="scale-fill" style="width:'+faiz+'%; background:'+renk+'"></div></div>';
+            html += '<div class="psych-box"><i class="fas fa-user-md"></i> <strong>Psixoloq üçün tövsiyə:</strong><br>'+psixoloqMesaj+'</div>';
+            html += '<div class="parent-box"><i class="fas fa-home"></i> <strong>Valideyn üçün tövsiyə:</strong><br>'+valideynMesaj+'</div></div>';
+        }
+        
+        let ortalama = ( (skor.A/say.A/4)+(skor.E/say.E/4)+(skor.S/say.S/4)+(skor.B/say.B/4)+(skor.D/say.D/4) )/5 * 100;
+        let umumiSeviye = ortalama>70 ? "🔴 Yüksək ehtiyac" : (ortalama>40 ? "⚠️ Orta risk" : "✅ Normativ");
+        
+        html += '<div style="background:#eaf9f0;border-radius:32px;padding:22px;margin-top:20px;">';
+        html += '<strong>📊 Ümumi çətinlik indeksi: '+ortalama.toFixed(0)+'% ('+umumiSeviye+')</strong><br>';
+        html += '<textarea id="psychComment" rows="4" style="width:100%;border-radius:24px;padding:14px;margin-top:18px;border:1px solid #cde0d8;" placeholder="Psixoloqun əlavə qeydləri, müşahidələri və tövsiyələri..."></textarea>';
+        html += '<button id="exportHtml" class="btn" style="margin-top:20px;background:#1f5e3a;color:#fff;"><i class="fas fa-download"></i> HTML hesabatı yadda saxla</button></div>';
+        
+        document.getElementById('resultsArea').innerHTML = html;
+        document.getElementById('resultsArea').style.display = 'block';
+        
+        document.getElementById('exportHtml').onclick = function() {
+            let ad = document.getElementById('childName').value.trim() || 'usaq';
+            let soyad = document.getElementById('childSurname').value.trim() || '';
+            let rəy = document.getElementById('psychComment').value || '';
+            let content = document.getElementById('resultsArea').cloneNode(true);
+            let sonHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>CBT '+ad+' '+soyad+'</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"><style>body{font-family:Inter;padding:30px;}</style></head><body><h2>AN Psixoloji Dəstək Mərkəzi</h2><p><strong>Uşaq:</strong> '+ad+' '+soyad+' | <strong>Yaş:</strong> '+document.getElementById('childAge').value+' | <strong>Psixoloq:</strong> '+document.getElementById('specialist').value+' | <strong>Tarix:</strong> '+new Date().toLocaleString()+'</p><hr>'+content.innerHTML+'<div style="margin-top:25px;padding:18px;background:#f0f9f4;border-radius:32px;"><strong>🧾 Psixoloqun rəyi:</strong><br>'+rəy.replace(/\n/g,'<br>')+'</div></body></html>';
+            let blob = new Blob([sonHtml], {type:'text/html'});
+            let a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'cbt_'+ad+'_'+soyad+'.html';
+            a.click();
+            URL.revokeObjectURL(url);
+        };
+        window.scrollTo({top:document.getElementById('resultsArea').offsetTop-60, behavior:'smooth'});
+    };
+    
+    // Tablar
+    document.querySelectorAll('.tab-btn').forEach(btn=>{
+        btn.onclick = function(){
+            document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+            this.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+            document.getElementById(this.dataset.tab+'Tab').classList.add('active');
+        };
+    });
+    
+    // Modallar
+    let guideModal = document.getElementById('guideModal');
+    document.getElementById('openGuide').onclick = () => guideModal.style.display = 'flex';
+    document.querySelector('#guideModal .close-modal').onclick = () => guideModal.style.display = 'none';
+    document.getElementById('closeGuideBtn').onclick = () => guideModal.style.display = 'none';
+    let historyModal = document.getElementById('historyModal');
+    document.getElementById('closeHistoryModal').onclick = () => historyModal.style.display = 'none';
+    document.getElementById('closeHistoryModalBtn').onclick = () => historyModal.style.display = 'none';
+    window.onclick = (e) => { if(e.target === guideModal) guideModal.style.display = 'none'; if(e.target === historyModal) historyModal.style.display = 'none'; };
+}
+
+// Lisenziya yoxlanışı
+if(localStorage.getItem('an_cbt_license') === VALID_LICENSE) {
+    document.getElementById('licenseOverlay').style.display = 'none';
+    document.getElementById('mainApp').style.display = 'block';
+    baslat();
+}
+</script>
+</body>
+</html>
