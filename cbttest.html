@@ -2,52 +2,63 @@
 <html lang="az">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>AN Psixoloji Dəstək | CBT Klinik Qiymətləndirmə</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Inter',sans-serif;background:#f0f4fa;padding:20px}
-        .container{max-width:1300px;margin:0 auto}
+        body{font-family:'Inter',sans-serif;background:#f0f4fa;padding:16px}
+        .container{max-width:1300px;margin:0 auto;width:100%}
         .license-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:flex;align-items:center;justify-content:center;z-index:9999}
-        .license-box{background:#fff;border-radius:50px;padding:40px;max-width:450px;width:90%;text-align:center}
-        .license-box i{font-size:3rem;color:#2b7a4b}
-        .license-box input{width:100%;padding:14px;margin:20px 0;border:2px solid #ddd;border-radius:50px}
-        .license-box button{background:#2b7a4b;color:#fff;border:none;padding:12px 30px;border-radius:50px;cursor:pointer;font-weight:bold}
+        .license-box{background:#fff;border-radius:50px;padding:30px 20px;max-width:400px;width:90%;text-align:center}
+        .license-box i{font-size:2.5rem;color:#2b7a4b}
+        .license-box input{width:100%;padding:12px;margin:15px 0;border:2px solid #ddd;border-radius:50px;font-size:1rem}
+        .license-box button{background:#2b7a4b;color:#fff;border:none;padding:12px 25px;border-radius:50px;cursor:pointer;font-weight:bold;font-size:1rem}
         .error-msg{color:red;margin-top:10px;display:none}
-        .banner{background:#1b4d3a;color:#fff;padding:16px 24px;border-radius:40px;margin-bottom:25px;display:flex;align-items:center;gap:12px}
-        .header-card{background:#fff;border-radius:40px;padding:18px 25px;margin-bottom:25px;display:flex;justify-content:space-between;flex-wrap:wrap;align-items:center}
-        .logo h2{color:#1f5e3a}
-        .info-form{display:flex;gap:12px;flex-wrap:wrap;background:#f5f7fa;padding:10px 20px;border-radius:50px}
-        .info-form input{padding:6px 12px;border-radius:30px;border:1px solid #ccc}
-        .btn{background:#fff;border:1px solid #2b7a4b;padding:6px 16px;border-radius:40px;cursor:pointer;font-weight:600;transition:0.2s}
+        .banner{background:#1b4d3a;color:#fff;padding:14px 18px;border-radius:35px;margin-bottom:20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+        .banner i{font-size:1.6rem}
+        .header-card{background:#fff;border-radius:35px;padding:15px 20px;margin-bottom:20px;display:flex;flex-direction:column;gap:15px}
+        @media (min-width: 768px) {
+            .header-card{flex-direction:row;justify-content:space-between;align-items:center}
+            .info-form{flex-wrap:nowrap}
+        }
+        .logo h2{color:#1f5e3a;font-size:1.3rem}
+        .logo p{font-size:0.8rem}
+        .info-form{display:flex;flex-wrap:wrap;gap:10px;background:#f5f7fa;padding:10px 15px;border-radius:50px;width:100%}
+        .info-form input{padding:6px 12px;border-radius:30px;border:1px solid #ccc;flex:1;min-width:100px}
+        .btn{background:#fff;border:1px solid #2b7a4b;padding:6px 14px;border-radius:40px;cursor:pointer;font-weight:600;transition:0.2s;white-space:nowrap}
         .btn:hover{background:#2b7a4b;color:#fff}
-        .tab-buttons{display:flex;gap:12px;margin-bottom:25px;flex-wrap:wrap}
-        .tab-btn{background:#eef2ff;border:none;padding:10px 24px;border-radius:40px;cursor:pointer;font-weight:600}
+        .tab-buttons{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+        .tab-btn{background:#eef2ff;border:none;padding:8px 18px;border-radius:40px;cursor:pointer;font-weight:600;font-size:0.9rem}
         .tab-btn.active{background:#2b7a4b;color:#fff}
         .tab-content{display:none}
         .tab-content.active{display:block}
-        .question-card{background:#fff;border-radius:40px;padding:28px;margin-bottom:25px}
-        .card-header{font-size:1.4rem;font-weight:800;border-bottom:2px solid #cfe3dc;padding-bottom:12px;margin-bottom:20px;display:flex;align-items:center;gap:10px;color:#1c5d42}
-        .question-item{margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #eef3f0}
-        .question-text{font-weight:600;margin-bottom:10px}
+        .question-card{background:#fff;border-radius:35px;padding:20px;margin-bottom:20px}
+        .card-header{font-size:1.3rem;font-weight:800;border-bottom:2px solid #cfe3dc;padding-bottom:10px;margin-bottom:18px;display:flex;align-items:center;gap:8px;color:#1c5d42;flex-wrap:wrap}
+        .question-item{margin-bottom:22px;padding-bottom:10px;border-bottom:1px solid #eef3f0}
+        .question-text{font-weight:600;margin-bottom:10px;font-size:0.95rem}
         .options{display:flex;flex-wrap:wrap;gap:8px}
-        .options label{background:#f5f9fc;padding:5px 12px;border-radius:50px;font-size:0.8rem;cursor:pointer;border:1px solid #ddd}
-        input[type="radio"]{margin-right:5px}
-        .btn-calc{background:#1e6342;width:100%;padding:16px;font-size:1.2rem;color:#fff;font-weight:700;border-radius:60px;cursor:pointer;margin:20px 0;border:none}
-        .results-box{background:#fff;border-radius:40px;padding:30px;margin-top:25px;display:none}
-        .domain-card{background:#f9fafb;border-radius:28px;padding:18px;margin-bottom:20px;border-left:6px solid}
-        .scale-bar{background:#e2e8f0;border-radius:20px;height:12px;margin:12px 0}
-        .scale-fill{height:12px;border-radius:20px}
-        .psych-box,.parent-box{padding:12px;border-radius:24px;margin-top:12px;line-height:1.5}
+        .options label{background:#f5f9fc;padding:5px 10px;border-radius:50px;font-size:0.75rem;cursor:pointer;border:1px solid #ddd}
+        input[type="radio"]{margin-right:4px}
+        .btn-calc{background:#1e6342;width:100%;padding:14px;font-size:1.1rem;color:#fff;font-weight:700;border-radius:60px;cursor:pointer;margin:20px 0;border:none}
+        .results-box{background:#fff;border-radius:35px;padding:20px;margin-top:20px;display:none}
+        .domain-card{background:#f9fafb;border-radius:28px;padding:16px;margin-bottom:18px;border-left:6px solid}
+        .scale-bar{background:#e2e8f0;border-radius:20px;height:10px;margin:10px 0}
+        .scale-fill{height:10px;border-radius:20px}
+        .psych-box,.parent-box{padding:10px;border-radius:24px;margin-top:10px;line-height:1.4;font-size:0.85rem}
         .psych-box{background:#e8f0fe;border-left:4px solid #2b7a4b}
         .parent-box{background:#fef2e0;border-left:4px solid #e67e22}
         .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);align-items:center;justify-content:center;z-index:10000}
-        .modal-content{background:#fff;max-width:850px;width:90%;max-height:85vh;overflow-y:auto;border-radius:48px;padding:30px;position:relative}
-        .close-modal{position:absolute;right:20px;top:15px;font-size:1.8rem;cursor:pointer}
-        .test-list-item{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ddd;padding:12px}
-        footer{text-align:center;margin-top:40px;color:#3c6e5a;font-size:0.8rem}
+        .modal-content{background:#fff;max-width:850px;width:90%;max-height:85vh;overflow-y:auto;border-radius:40px;padding:25px;position:relative}
+        .close-modal{position:absolute;right:18px;top:12px;font-size:1.6rem;cursor:pointer}
+        .test-list-item{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ddd;padding:10px;flex-wrap:wrap;gap:8px}
+        footer{text-align:center;margin-top:30px;color:#3c6e5a;font-size:0.7rem}
+        @media (max-width: 550px) {
+            .options label{padding:4px 8px;font-size:0.7rem}
+            .tab-btn{padding:6px 14px;font-size:0.8rem}
+            .card-header{font-size:1.2rem}
+        }
     </style>
 </head>
 <body>
@@ -57,7 +68,7 @@
     <div class="banner"><i class="fas fa-chart-line"></i> <strong>AN Klinik CBT Qiymətləndirmə Aləti</strong> – Lisenziyalı versiya</div>
     
     <div class="header-card">
-        <div class="logo"><h2><i class="fas fa-brain"></i> AN Psixoloji Dəstək Mərkəzi</h2></div>
+        <div class="logo"><h2><i class="fas fa-brain"></i> AN Psixoloji Dəstək Mərkəzi</h2><p>CBT əsaslı klinik qiymətləndirmə</p></div>
         <div class="info-form">
             <div><input type="text" id="childName" placeholder="Ad" list="existingNames"></div>
             <datalist id="existingNames"></datalist>
@@ -112,44 +123,32 @@
 <script>
 const VALID_LICENSE = "LIC-T4C0L-PEWNF-KB5U";
 
-// Təmiz və etibarlı lisenziya yoxlaması
 (function() {
     function showLicenseScreen() {
         document.getElementById('licenseOverlay').style.display = 'flex';
         document.getElementById('mainApp').style.display = 'none';
     }
-    
     function hideLicenseAndStart() {
         document.getElementById('licenseOverlay').style.display = 'none';
         document.getElementById('mainApp').style.display = 'block';
         if(typeof initApp === 'function') initApp();
     }
-    
-    // Yoxlamaq üçün localStorage
-    function checkStoredLicense() {
-        try {
-            const stored = localStorage.getItem('an_cbt_license');
-            if(stored === VALID_LICENSE) {
-                hideLicenseAndStart();
-                return true;
-            }
-        } catch(e) {}
-        return false;
-    }
-    
-    if(!checkStoredLicense()) {
+    try {
+        const stored = localStorage.getItem('an_cbt_license');
+        if(stored === VALID_LICENSE) {
+            hideLicenseAndStart();
+        } else {
+            showLicenseScreen();
+        }
+    } catch(e) {
         showLicenseScreen();
     }
-    
-    // Təsdiqləmə düyməsi
     const verifyBtn = document.getElementById('verifyLicenseBtn');
     if(verifyBtn) {
         verifyBtn.onclick = function() {
             const inputCode = document.getElementById('licenseKey').value.trim();
             if(inputCode === VALID_LICENSE) {
-                try {
-                    localStorage.setItem('an_cbt_license', VALID_LICENSE);
-                } catch(e) {}
+                try { localStorage.setItem('an_cbt_license', VALID_LICENSE); } catch(e) {}
                 hideLicenseAndStart();
             } else {
                 const errorDiv = document.getElementById('licenseError');
@@ -161,7 +160,6 @@ const VALID_LICENSE = "LIC-T4C0L-PEWNF-KB5U";
 
 let allTests = JSON.parse(localStorage.getItem('an_cbt_data')) || [];
 
-// SUALLAR (əvvəlki kimi)
 const parentQuestions = [
 "1. Yeni mühitdə əsəbiləşir?","2. Məktəb qorxusu?","3. Yuxu problemi?","4. Təkrar suallar?","5. Ayrılma narahatlığı?","6. Fiziki şikayətlər?",
 "7. Qəzəb nəzarəti?","8. Məyusluq reaksiyası?","9. Duyğuları ifadə?","10. Əhval dəyişkənliyi?","11. Dostluq çətinliyi?","12. Empatiya problemi?",
@@ -222,7 +220,6 @@ window.initApp = function() {
     renderForm('teacherForm', teacherQuestions, teacherDomains, 't');
     updateDatalist();
     
-    // SAXLA
     document.getElementById('saveBtn').onclick = function() {
         let name = document.getElementById('childName').value.trim();
         let surname = document.getElementById('childSurname').value.trim();
@@ -247,7 +244,6 @@ window.initApp = function() {
         alert('Test uğurla saxlanıldı');
     };
     
-    // KEÇMİŞ
     document.getElementById('historyBtn').onclick = function() {
         let container = document.getElementById('testListContainer');
         if(allTests.length===0) container.innerHTML = '<p>Heç bir test yoxdur</p>';
@@ -280,7 +276,6 @@ window.initApp = function() {
         document.getElementById('historyModal').style.display = 'flex';
     };
     
-    // HESABLAMA
     document.getElementById('calculateBtn').onclick = function() {
         if(getCheckedCount('parentForm')!==20 || getCheckedCount('childForm')!==20) {
             alert('Zəhmət olmasa valideyn (20) və uşaq (20) suallarını tam cavablandırın!');
@@ -358,7 +353,6 @@ window.initApp = function() {
         window.scrollTo({top:document.getElementById('resultsArea').offsetTop-60, behavior:'smooth'});
     };
     
-    // TABLAR
     document.querySelectorAll('.tab-btn').forEach(btn=>{
         btn.onclick = function(){
             document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -368,7 +362,6 @@ window.initApp = function() {
         };
     });
     
-    // MODALLAR
     let guideModal = document.getElementById('guideModal');
     document.getElementById('openGuide').onclick = () => guideModal.style.display = 'flex';
     document.querySelector('#guideModal .close-modal').onclick = () => guideModal.style.display = 'none';
@@ -378,9 +371,6 @@ window.initApp = function() {
     document.getElementById('closeHistoryModalBtn').onclick = () => histModal.style.display = 'none';
     window.onclick = (e) => { if(e.target === guideModal) guideModal.style.display = 'none'; if(e.target === histModal) histModal.style.display = 'none'; };
 };
-
-// Əgər lisenziya artıq təsdiqlənibsə, initApp çağrılacaq (hideLicenseAndStart tərəfindən).
-// Əks halda, lisenziya pərdəsi görünəcək və təsdiqləndikdən sonra initApp işə düşəcək.
 </script>
 </body>
 </html>
